@@ -13,7 +13,7 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         String contactName = "Chuck Hutchinson";
-        String linkedInURL = "https://www.linkedin.com/in/chuckhutchinson2";
+        String linkedInURL = "https://www.linkedin.com/in/hutchinsonchuck/";
 
         // You might want to evaluate which license to use
         // https://www.gnu.org/licenses/licenses.en.html#GPL
