@@ -29,6 +29,14 @@ public class DateCalculatorController {
         return new ResponseEntity<>(daysBetween, HttpStatus.OK);
     }
 
+    @PostMapping("/workingdaysbetween")
+    ResponseEntity<Long> workingDaysBetween(@RequestBody DaysBetweenRequest daysBetweenRequest) {
+
+        Long daysBetween = dateCalculatorService.workingDaysBetween(daysBetweenRequest);
+
+        return new ResponseEntity<>(daysBetween, HttpStatus.OK);
+    }
+
     @PostMapping("/calculate")
     ResponseEntity<LocalDate> calculate(@RequestBody CalculateDateRequest calculateDateRequest) {
 
