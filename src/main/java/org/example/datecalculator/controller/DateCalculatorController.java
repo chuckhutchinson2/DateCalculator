@@ -14,17 +14,25 @@ import java.time.LocalDate;
 // http://localhost:8080/swagger-ui.html
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/calculate")
+@RequestMapping("/api/v1/date")
 public class DateCalculatorController {
     private DateCalculatorService dateCalculatorService;
     public DateCalculatorController(DateCalculatorService dateCalculatorService) {
         this.dateCalculatorService = dateCalculatorService;
     }
 
-    @PostMapping("/dateparameters")
-    ResponseEntity<LocalDate> getDateParameters(@RequestBody DateParameter dateParameter) {
+    @PostMapping("/daysbetween")
+    ResponseEntity<Long> daysBetween(@RequestBody DaysBetweenRequest daysBetweenRequest) {
 
-        LocalDate dateCalculated = dateCalculatorService.calculate(dateParameter);
+        Long daysBetween = dateCalculatorService.daysBetween(daysBetweenRequest);
+
+        return new ResponseEntity<>(daysBetween, HttpStatus.OK);
+    }
+
+    @PostMapping("/calculate")
+    ResponseEntity<LocalDate> calculate(@RequestBody CalculateDateRequest calculateDateRequest) {
+
+        LocalDate dateCalculated = dateCalculatorService.calculate(calculateDateRequest);
 
         return new ResponseEntity<>(dateCalculated, HttpStatus.OK);
     }

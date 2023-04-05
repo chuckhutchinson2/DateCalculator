@@ -5,8 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class DateParameter {
-    private String id;
+public class CalculateDateRequest {
     private LocalDate localDate;
     private Integer years;
     private Integer months;

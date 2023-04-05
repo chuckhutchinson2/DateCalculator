@@ -5,5 +5,7 @@ import org.example.datecalculator.model.*;
 import java.time.LocalDate;
 
 public interface DateCalculatorService {
-    LocalDate calculate(DateParameter dateParameter);
+    long daysBetween(DaysBetweenRequest daysBetweenRequest);
+
+    LocalDate calculate(CalculateDateRequest calculateDateRequest);
 }
