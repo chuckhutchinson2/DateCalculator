@@ -21,7 +21,7 @@ public class SwaggerConfig {
         return new OpenAPI().info(
                 new Info().title("DateCalculator")
                         .description("Date Calculator")
-                        .summary("This is a sample spring boot REST application with Jacoco, Swagger showing a sample Controller, Service and Repository")
+                        .summary("This is a sample date calculator to add/subtract years/months/days from a date and to calculate the number of days between two dates.")
                         .version("v1.0")
                         .contact(new Contact().name(contactName).url(linkedInURL))
                         .license(new License().url(licenseURL))
