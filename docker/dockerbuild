@@ -1,0 +1,7 @@
+mkdir -p dist
+
+cp ../target/DateCalculator-1.0-SNAPSHOT.jar dist/DateCalculator-1.0-SNAPSHOT.jar
+
+docker build -t datecalculator-services .
+
+rm -fr dist
