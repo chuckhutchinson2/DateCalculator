@@ -1,5 +1,6 @@
 package org.example.datecalculator.controller;
 
+import org.example.datecalculator.email.EmailService;
 import org.example.datecalculator.model.*;
 import org.example.datecalculator.service.DateCalculatorService;
 
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.time.LocalDate;
 
 // http://localhost:8080/swagger-ui.html
@@ -17,8 +19,28 @@ import java.time.LocalDate;
 @RequestMapping("/api/v1/date")
 public class DateCalculatorController {
     private DateCalculatorService dateCalculatorService;
-    public DateCalculatorController(DateCalculatorService dateCalculatorService) {
+    private EmailService emailService;
+    public DateCalculatorController(DateCalculatorService dateCalculatorService, EmailService emailService) {
         this.dateCalculatorService = dateCalculatorService;
+        this.emailService = emailService;
+    }
+
+    @PostMapping("/sendfile")
+    ResponseEntity<String> sendEMailWithAttachment() {
+        File path = new File("/Users/chuck/code/DateCalculator/");
+        emailService.sendEmail("chuckhutchinson2@icloud.com",
+                "chuckhutchinson2@icloud.com",
+                "pom.xml",
+                "email body", new File(path,"pom.xml"));
+
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    @PostMapping("/send")
+    ResponseEntity<String> sendEMail() {
+        emailService.sendTextEmail("chuckhutchinson2@icloud.com", "chuckhutchinson2@icloud.com", "subject", "email body");
+
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 
     @PostMapping("/daysbetween")
