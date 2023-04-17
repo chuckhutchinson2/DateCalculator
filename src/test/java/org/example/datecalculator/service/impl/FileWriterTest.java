@@ -22,9 +22,7 @@ public class FileWriterTest {
 
     @Test
     public void createZipFile() throws  IOException {
-
         int BUFFER = 1024;
-
         String fileName = "test.dat";
         File file = new File(fileName);
         FileInputStream fis = new FileInputStream(file);
