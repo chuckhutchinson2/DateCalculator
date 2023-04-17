@@ -49,8 +49,8 @@ public class DateCalculatorController {
         File path = new File("/Users/chuck/code/DateCalculator/pom.xml");
         emailService.sendMessage("chuckhutchinson2@icloud.com",
                 "chuckhutchinson2@icloud.com",
-                "pom.xml",templateModel,
-                path);
+                "pom.xml", "template-thymeleaf.html",
+                templateModel, path);
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }

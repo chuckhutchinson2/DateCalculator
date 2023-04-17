@@ -10,6 +10,6 @@ public interface EmailService {
 
     public void sendEmail(String from, String to, String subject, String body, File attachment);
 
-    public void sendMessage(String from, String to, String subject, Map<String, Object> templateModel);
-    public void sendMessage(String from, String to, String subject, Map<String, Object> templateModel, File attachment);
+    public void sendMessage(String from, String to, String subject, String templateName, Map<String, Object> templateModel);
+    public void sendMessage(String from, String to, String subject, String templateName, Map<String, Object> templateModel, File attachment);
 }
