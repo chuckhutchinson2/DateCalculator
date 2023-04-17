@@ -7,15 +7,20 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import java.io.File;
+import java.util.Map;
 
 @Component
 @Slf4j
 public class EmailServiceImpl implements EmailService {
     private JavaMailSender mailSender;
-    public EmailServiceImpl(JavaMailSender mailSender) {
+    private SpringTemplateEngine thymeleafTemplateEngine;
+    public EmailServiceImpl(JavaMailSender mailSender, SpringTemplateEngine thymeleafTemplateEngine) {
         this.mailSender = mailSender;
+        this.thymeleafTemplateEngine = thymeleafTemplateEngine;
     }
     @Override
     public void sendTextEmail(String from, String to, String subject, String body) {
@@ -49,5 +54,19 @@ public class EmailServiceImpl implements EmailService {
         };
 
         mailSender.send(preparator);
+    }
+
+    @Override
+    public void sendMessage(String from, String to, String subject, Map<String, Object> templateModel) {
+        sendMessage(from, to, subject, templateModel, null);
+    }
+
+    @Override
+    public void sendMessage(String from, String to, String subject, Map<String, Object> templateModel, File attachment) {
+        Context thymeleafContext = new Context();
+        thymeleafContext.setVariables(templateModel);
+        String htmlBody = thymeleafTemplateEngine.process("template-thymeleaf.html", thymeleafContext);
+
+        sendEmail(from, to, subject, htmlBody, attachment);
     }
 }

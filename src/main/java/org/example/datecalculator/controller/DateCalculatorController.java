@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 // http://localhost:8080/swagger-ui.html
 @Slf4j
@@ -35,6 +37,27 @@ public class DateCalculatorController {
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+
+    @PostMapping("/sendemailviatemplate")
+    ResponseEntity<String> sendEMailViaTemplate() {
+
+        Map<String, Object> templateModel = new HashMap<>();
+        templateModel.put("recipientName", "bob");
+        templateModel.put("text", "take a look at the attached pom.xml. It has the stuff we need to send emails");
+        templateModel.put("senderName", "jack");
+
+        File path = new File("/Users/chuck/code/DateCalculator/pom.xml");
+        emailService.sendMessage("chuckhutchinson2@icloud.com",
+                "chuckhutchinson2@icloud.com",
+                "pom.xml",templateModel,
+                path);
+
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    /*
+
+     */
 
     @PostMapping("/send")
     ResponseEntity<String> sendEMail() {
