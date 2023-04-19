@@ -2,6 +2,7 @@ package org.example.datecalculator.controller;
 
 import org.example.datecalculator.email.EmailService;
 import org.example.datecalculator.model.*;
+import org.example.datecalculator.pdf.PdfGenerator;
 import org.example.datecalculator.service.DateCalculatorService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,15 @@ import java.util.Map;
 public class DateCalculatorController {
     private DateCalculatorService dateCalculatorService;
     private EmailService emailService;
-    public DateCalculatorController(DateCalculatorService dateCalculatorService, EmailService emailService) {
+
+    private PdfGenerator pdfGenerator;
+
+    public DateCalculatorController(DateCalculatorService dateCalculatorService,
+                                    EmailService emailService,
+                                    PdfGenerator pdfGenerator) {
         this.dateCalculatorService = dateCalculatorService;
         this.emailService = emailService;
+        this.pdfGenerator = pdfGenerator;
     }
 
     @PostMapping("/sendfile")
@@ -54,10 +61,6 @@ public class DateCalculatorController {
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
-
-    /*
-
-     */
 
     @PostMapping("/send")
     ResponseEntity<String> sendEMail() {
