@@ -44,7 +44,7 @@ public class CalendarServiceImplTest {
 
         Map<String, Object> model = new HashMap<>();
         model.put("months", months);
-        File file = pdfGenerator.generatePDF("calendar.pdf", "calendar.html", model);
+        File file = pdfGenerator.generatePDF("pdf/calendar.pdf", "calendar.html", model);
 
         log.info("File {}", file.getAbsolutePath());
     }
