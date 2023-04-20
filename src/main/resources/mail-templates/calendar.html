@@ -87,7 +87,7 @@ body {font-family: Verdana, sans-serif;}
     <div>
         <div class="month">
             <ul>
-                <li th:text="${month.monthName}"></li>
+                <li th:text="${month.monthName} + ' - ' +  ${month.year}"></li>
             </ul>
         </div>
         <div style="width:100%;">
