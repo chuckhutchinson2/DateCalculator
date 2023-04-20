@@ -1,6 +1,7 @@
 package org.example.datecalculator.pdf.impl;
 
 import com.lowagie.text.DocumentException;
+import org.example.datecalculator.io.FileUtils;
 import org.example.datecalculator.pdf.PdfGenerator;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
@@ -26,6 +27,8 @@ public class PdfGeneratorImpl implements PdfGenerator {
         try {
 
             String html = generateHtml(templateName, templateModel);
+
+            FileUtils.writeFile("./", filename.replace("pdf", "html"), html);
 
 //            File file = new File(tmpdir, filename);
 

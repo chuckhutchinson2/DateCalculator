@@ -7,11 +7,13 @@
     <style>
 .page-break{page-break-after: always;}
 @page {
-        margin-top: 3.3cm;
-        margin-left: 2cm;
-        margin-right: 2cm;
-        margin-bottom: 3.3cm;
-        size: a4 landscape;
+    margin-top: 2cm;
+    margin-left: 2cm;
+    margin-right: 2cm;
+    margin-bottom: 2cm;
+    size: a4 landscape;
+    align-items: center;
+    justify-content: center;
 }
 
 ul {list-style-type: none;}
@@ -19,7 +21,7 @@ body {font-family: Verdana, sans-serif;}
 
 /* Month header */
 .month {
-  padding: 70px 25px;
+  padding: 20px 25px;
   width: 100%;
   background: #1abc9c;
   text-align: center;
@@ -34,26 +36,14 @@ body {font-family: Verdana, sans-serif;}
 .month ul li {
   color: white;
   font-size: 20px;
-  text-transform: uppercase;
   letter-spacing: 3px;
-}
-
-/* Previous button inside month header */
-.month .prev {
-  float: left;
-  padding-top: 10px;
-}
-
-/* Next button */
-.month .next {
-  float: right;
-  padding-top: 10px;
 }
 
 /* Weekdays (Mon-Sun) */
 .weekdays {
+  width: 100%;
   margin: 0;
-  padding: 10px 0;
+  cpadding: 10px 0;
   background-color:#ddd;
 }
 
@@ -66,7 +56,7 @@ body {font-family: Verdana, sans-serif;}
 
 /* Days (1-31) */
 .days {
-  padding: 10px 0;
+  width: 100%;
   background: #eee;
   margin: 0;
 }
@@ -76,9 +66,10 @@ body {font-family: Verdana, sans-serif;}
   display: inline-block;
   width: 13.6%;
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
   font-size:12px;
   color: #777;
+  line-height:750%;
 }
 
 /* Highlight the "current" day */
@@ -87,47 +78,50 @@ body {font-family: Verdana, sans-serif;}
   background: #1abc9c;
   color: white !important
 }
-
-    </style>
+</style>
 </head>
 
 <body>
 
-            <div class="@page page-break"  th:each="month: ${months}">
-                    <div class="month">
-                        <ul>
-                            <li th:text="${month.monthName}"></li>
-                        </ul>
-                    </div>
-                    <ul class="weekdays">
-                        <li>
-                            Sunday
-                        </li>
-                        <li>
-                            Monday
-                        </li>
-                        <li>
-                            Tuesday
-                        </li>
-                        <li>
-                            Wednesday
-                        </li>
-                        <li>
-                            Thursday
-                        </li>
-                        <li>
-                            Friday
-                        </li>
-                        <li>
-                            Saturday
-                        </li>
-                    </ul>
-                    <ul class="days" th:each="week: ${month.weeks}">
-                        <li th:each="day : ${week.weekDays}"
-                            th:text="${month.monthName} == ${day.monthName} ? ${day.dayOfMonth} : ''">
-                        </li>
-                    </ul>
-            </div>
+<div class="@page page-break" th:each="month: ${months}">
+    <div>
+        <div class="month">
+            <ul>
+                <li th:text="${month.monthName}"></li>
+            </ul>
+        </div>
+        <div style="width:100%;">
+            <ul class="weekdays">
+                <li>
+                    Sunday
+                </li>
+                <li>
+                    Monday
+                </li>
+                <li>
+                    Tuesday
+                </li>
+                <li>
+                    Wednesday
+                </li>
+                <li>
+                    Thursday
+                </li>
+                <li>
+                    Friday
+                </li>
+                <li>
+                    Saturday
+                </li>
+            </ul>
+            <ul class="days" th:each="week: ${month.weeks}">
+                <li th:each="day : ${week.weekDays}"
+                    th:text="${month.monthName} == ${day.monthName} ? ${day.dayOfMonth} : ''">
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>
 
