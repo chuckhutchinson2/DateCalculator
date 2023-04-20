@@ -4,48 +4,122 @@
 
 <head>
     <title>Calendar</title>
+    <style>
+ul {list-style-type: none;}
+body {font-family: Verdana, sans-serif;}
+
+/* Month header */
+.month {
+  padding: 70px 25px;
+  width: 100%;
+  background: #1abc9c;
+  text-align: center;
+}
+
+/* Month list */
+.month ul {
+  margin: 0;
+  padding: 0;
+}
+
+.month ul li {
+  color: white;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+/* Previous button inside month header */
+.month .prev {
+  float: left;
+  padding-top: 10px;
+}
+
+/* Next button */
+.month .next {
+  float: right;
+  padding-top: 10px;
+}
+
+/* Weekdays (Mon-Sun) */
+.weekdays {
+  margin: 0;
+  padding: 10px 0;
+  background-color:#ddd;
+}
+
+.weekdays li {
+  display: inline-block;
+  width: 13.6%;
+  color: #666;
+  text-align: center;
+}
+
+/* Days (1-31) */
+.days {
+  padding: 10px 0;
+  background: #eee;
+  margin: 0;
+}
+
+.days li {
+  list-style-type: none;
+  display: inline-block;
+  width: 13.6%;
+  text-align: center;
+  margin-bottom: 5px;
+  font-size:12px;
+  color: #777;
+}
+
+/* Highlight the "current" day */
+.days li .active {
+  padding: 5px;
+  background: #1abc9c;
+  color: white !important
+}
+
+    </style>
 </head>
 
 <body>
 
-    <table>
-
-        <tr th:each="month: ${months}">
-            <td colspan="1">
-                <table>
-                    <tr>
-                        <th>
+            <div class="container" style="-fs-page-sequence: start; page-break-after: always" th:each="month: ${months}">
+                    <div class="month">
+                        <ul>
+                            <li th:text="${month.monthName}"></li>
+                        </ul>
+                    </div>
+                    <ul class="weekdays">
+                        <li>
                             Sunday
-                        </th>
-                        <th>
+                        </li>
+                        <li>
                             Monday
-                        </th>
-                        <th>
+                        </li>
+                        <li>
                             Tuesday
-                        </th>
-                        <th>
+                        </li>
+                        <li>
                             Wednesday
-                        </th>
-                        <th>
+                        </li>
+                        <li>
                             Thursday
-                        </th>
-                        <th>
+                        </li>
+                        <li>
                             Friday
-                        </th>
-                        <th>
+                        </li>
+                        <li>
                             Saturday
-                        </th>
-                    </tr>
-                    <tr th:each="week: ${month.weeks}">
-                        <td th:each="day : ${week.weekDays}">
-                            <span th:text="${day.getDayOfMonth()}"></span>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-    </table>
+                        </li>
+                    </ul>
+                    <ul class="days" th:each="week: ${month.weeks}">
+                        <li th:each="day : ${week.weekDays}"
+                            th:text="${day.dayOfMonth}"
+                            th:style="${month.monthName} != ${day.monthName}">
+                        </li>
+                    </ul>
+            </div>
 </body>
 </html>
 

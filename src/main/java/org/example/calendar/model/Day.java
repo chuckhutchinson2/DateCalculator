@@ -17,6 +17,9 @@ public class Day {
         return localDate.equals(localDate1);
     }
 
+    public String getMonthName() {
+        return localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.US);
+    }
     public int getYear() { return localDate.getYear(); }
     public Integer getDayOfMonth() {
         return localDate.getDayOfMonth();

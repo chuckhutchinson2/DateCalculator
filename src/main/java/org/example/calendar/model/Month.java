@@ -14,6 +14,6 @@ public class Month {
         return day.getYear();
     }
     public String getMonthName() {
-        return day.getMonth().getDisplayName(TextStyle.FULL, Locale.US);
+        return day.getMonthName();
     }
 }
