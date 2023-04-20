@@ -40,6 +40,7 @@ public class CalendarServiceImplTest {
 
         for(Month month : months) {
             log.info ("Month: {} has {} weeks", month.getMonthName(), month.getWeeks().size());
+            month.setImage("https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg");
         }
 
         Map<String, Object> model = new HashMap<>();

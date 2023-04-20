@@ -8,6 +8,7 @@ import java.util.Locale;
 
 @Data
 public class Month {
+    private String image;
     private Day day;
     private List<Week> weeks;
     public int getYear() {
