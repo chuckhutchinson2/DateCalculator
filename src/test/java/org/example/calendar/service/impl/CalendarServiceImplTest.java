@@ -42,7 +42,6 @@ public class CalendarServiceImplTest {
             log.info ("Month: {} has {} weeks", month.getMonthName(), month.getWeeks().size());
         }
 
-
         Map<String, Object> model = new HashMap<>();
         model.put("months", months);
         File file = pdfGenerator.generatePDF("calendar.pdf", "calendar.html", model);
