@@ -1,4 +1,4 @@
-package org.example.datecalculator.pdf.impl.model;
+package org.example.calendar.model;
 
 import lombok.Data;
 

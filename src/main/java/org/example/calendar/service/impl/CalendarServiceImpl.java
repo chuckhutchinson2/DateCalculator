@@ -1,74 +1,34 @@
-package org.example.datecalculator.pdf.impl;
-
+package org.example.calendar.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.datecalculator.config.ThymeLeafConfig;
 import org.example.calendar.model.Day;
 import org.example.calendar.model.Month;
-import org.example.calendar.model.Product;
 import org.example.calendar.model.Week;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.ActiveProfiles;
-import org.thymeleaf.templateresolver.ITemplateResolver;
+import org.example.calendar.service.CalendarService;
+import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
-import java.time.LocalDate;
-
-
-@ActiveProfiles("test")
-@RunWith(MockitoJUnitRunner.class)
+@Component
 @Slf4j
-public class PdfGeneratorImplTest {
-
-    private PdfGeneratorImpl pdfGenerator;
-
-    @Before
-    public void before() {
-        ThymeLeafConfig thymeLeafConfig = new ThymeLeafConfig();
-        ITemplateResolver iTemplateResolver = thymeLeafConfig.thymeleafTemplateResolver();
-        pdfGenerator = new PdfGeneratorImpl(thymeLeafConfig.thymeleafTemplateEngine(iTemplateResolver));
-    }
-
-    @Test
-    public void testGenerateCalendar1() {
-
-        Map<DayOfWeek, Integer> week = new HashMap<>();
-        for(DayOfWeek dayOfWeek : DayOfWeek.values()) {
-            log.info("DayOfWeek {}", dayOfWeek);
-        }
-    }
-
-
-    @Test
-    public void testGenerateCalendar() {
-
-        List<Month> months = getYear(2023);
-
-        log.info("months {}", months);
-
-
-        Map<String, Object> model = new HashMap<>();
-        model.put("months", months);
-        File file = pdfGenerator.generatePDF("calendar.pdf", "calendar.html", model);
-
-        log.info("File {}", file.getAbsolutePath());
-    }
-
-    List<Month> getYear(int year) {
+public class CalendarServiceImpl implements CalendarService {
+    @Override
+    public List<Month> create(int year) {
         //  get the year in weeks including the previous years days or next years days if that year spans two
         List<Week> weeks = processYear(year);
 
         // break the weeks into months.  If a week spans two months it needs to appear on the calendar for both months.
+        List<Month> months = processWeeks(weeks);
 
-        return processWeeks(weeks);
+        // only return the months for the year we are in.
+        return months.stream().filter(month -> month.getYear() == year).collect(Collectors.toList());
     }
 
     List<Week> processYear(int year) {
@@ -145,7 +105,7 @@ public class PdfGeneratorImplTest {
             if (currentMonth == null) {
                 currentMonth = new Month();
                 months.add(currentMonth);
-                currentMonth.setMonth(firstDayOfWeek.getMonth());
+                currentMonth.setDay(firstDayOfWeek);
                 currentMonth.setWeeks(new ArrayList<>());
             }
 
@@ -154,7 +114,7 @@ public class PdfGeneratorImplTest {
             if (firstDayOfWeek.getMonth() != lastDayOfWeek.getMonth()) {
                 log.info("Week {} spans multiple months {} {}", firstDayOfWeek.getMonth(), lastDayOfWeek.getMonth() );
                 currentMonth = new Month();
-                currentMonth.setMonth(lastDayOfWeek.getMonth());
+                currentMonth.setDay(lastDayOfWeek);
                 currentMonth.setWeeks(new ArrayList<>());
                 currentMonth.getWeeks().add(week);
                 months.add(currentMonth);
@@ -165,40 +125,7 @@ public class PdfGeneratorImplTest {
             }
         }
 
-        Month startMonth = months.get(0);
-        int startIndex = 0;
-        if (java.time.Month.DECEMBER == startMonth.getMonth()) {
-            startIndex = 1;
-        }
-        int endIndex = months.size() - 1;
-        Month endMonth = months.get(endIndex);
-
-        if (java.time.Month.JANUARY == endMonth.getMonth()) {
-            endIndex--;
-        }
-
-        return months.subList(startIndex, endIndex+1);
+        return months;
     }
 
-    @Test
-    public void testGeneratePdf() {
-        List<Product> products = new ArrayList<>();
-        products.add(createProduct("INTC", "8088", "8088 processor"));
-        products.add(createProduct("INTC", "80286", "80286 processor"));
-        products.add(createProduct("INTC", "80386", "80386 processor"));
-        products.add(createProduct("INTC", "80486", "80486 processor"));
-        Map<String, Object> model = new HashMap<>();
-        model.put("products" ,products);
-        File file = pdfGenerator.generatePDF("products.pdf", "products.html", model);
-
-        log.info("File {}", file.getAbsolutePath());
-    }
-
-    private Product createProduct(String vendor, String name, String description) {
-        Product product = new Product();
-        product.setVendor(vendor);
-        product.setName(name);
-        product.setDescription(description);
-        return product;
-    }
 }

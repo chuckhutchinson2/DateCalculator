@@ -1,4 +1,4 @@
-package org.example.datecalculator.pdf.impl.model;
+package org.example.calendar.model;
 
 import lombok.Data;
 
@@ -17,6 +17,7 @@ public class Day {
         return localDate.equals(localDate1);
     }
 
+    public int getYear() { return localDate.getYear(); }
     public int getDayOfMonth() {
         return localDate.getDayOfMonth();
     }
