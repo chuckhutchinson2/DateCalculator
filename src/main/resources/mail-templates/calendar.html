@@ -5,6 +5,15 @@
 <head>
     <title>Calendar</title>
     <style>
+.page-break{page-break-after: always;}
+@page {
+        margin-top: 3.3cm;
+        margin-left: 2cm;
+        margin-right: 2cm;
+        margin-bottom: 3.3cm;
+        size: a4 landscape;
+}
+
 ul {list-style-type: none;}
 body {font-family: Verdana, sans-serif;}
 
@@ -84,7 +93,7 @@ body {font-family: Verdana, sans-serif;}
 
 <body>
 
-            <div class="container" style="-fs-page-sequence: start; page-break-after: always" th:each="month: ${months}">
+            <div class="@page page-break"  th:each="month: ${months}">
                     <div class="month">
                         <ul>
                             <li th:text="${month.monthName}"></li>
