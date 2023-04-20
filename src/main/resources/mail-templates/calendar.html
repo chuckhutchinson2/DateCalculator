@@ -115,8 +115,7 @@ body {font-family: Verdana, sans-serif;}
                     </ul>
                     <ul class="days" th:each="week: ${month.weeks}">
                         <li th:each="day : ${week.weekDays}"
-                            th:text="${day.dayOfMonth}"
-                            th:style="${month.monthName} != ${day.monthName}">
+                            th:text="${month.monthName} == ${day.monthName} ? ${day.dayOfMonth} : ''">
                         </li>
                     </ul>
             </div>
