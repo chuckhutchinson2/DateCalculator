@@ -18,13 +18,12 @@ public class Day {
     }
 
     public int getYear() { return localDate.getYear(); }
-    public int getDayOfMonth() {
+    public Integer getDayOfMonth() {
         return localDate.getDayOfMonth();
     }
     public Month getMonth() {
         return localDate.getMonth();
     }
-
     public String getDayOfWeek() {
         return localDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US);
     }
