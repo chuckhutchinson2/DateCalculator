@@ -24,7 +24,7 @@ public class CalendarServiceImplTest {
         log.info("months {}", months);
 
         for(Month month : months) {
-            log.info ("Month: {}", month.getMonthName());
+            log.info ("Month: {} has {} weeks", month.getMonthName(), month.getWeeks().size());
         }
     }
 }
