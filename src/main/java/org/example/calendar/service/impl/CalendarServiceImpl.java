@@ -5,20 +5,47 @@ import org.example.calendar.model.Day;
 import org.example.calendar.model.Month;
 import org.example.calendar.model.Week;
 import org.example.calendar.service.CalendarService;
+import org.example.datecalculator.pdf.PdfGenerator;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 public class CalendarServiceImpl implements CalendarService {
+    public static final String CALENDAR_HTML_TEMPLATE = "calendar.html";
+    private PdfGenerator pdfGenerator;
+
+    public CalendarServiceImpl(PdfGenerator pdfGenerator) {
+        this.pdfGenerator = pdfGenerator;
+    }
+
+    @Override
+    public File createCalendar(int year, String filename) {
+
+        List<Month> months = create(2023);
+
+        log.info("months {}", months);
+
+        for(Month month : months) {
+            String imageName = String.format("images/%s.JPG", month.getMonthName());
+            log.info ("Month: {} has {} weeks {} ", month.getMonthName(), month.getWeeks().size(), imageName);
+            month.setImage(imageName);
+        }
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("months", months);
+        File file = pdfGenerator.generatePDF(filename, CALENDAR_HTML_TEMPLATE, model);
+
+        return file;
+    }
+
     @Override
     public List<Month> create(int year) {
         //  get the year in weeks including the previous years days or next years days if that year spans two
