@@ -2,9 +2,7 @@ package org.example.calendar.model;
 
 import lombok.Data;
 
-import java.time.format.TextStyle;
 import java.util.List;
-import java.util.Locale;
 
 @Data
 public class Month {

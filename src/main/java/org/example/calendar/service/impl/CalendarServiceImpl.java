@@ -11,6 +11,7 @@ import org.example.datecalculator.pdf.PdfGenerator;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -26,6 +27,7 @@ public class CalendarServiceImpl implements CalendarService {
     public static final String CALENDAR_HTML_TEMPLATE = "calendar.html";
 
     private String template = CALENDAR_HTML_TEMPLATE;
+    private String theme = "nature";
 
     private PdfGenerator pdfGenerator;
 
@@ -34,23 +36,36 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     @Override
+    public void createCalendar(int year, OutputStream outputStream) {
+        Map<String, Object> model = getCalendarModel(year);
+
+        pdfGenerator.generatePDF(outputStream, template, model);
+    }
+
+    @Override
     public File createCalendar(int year, String filename) {
 
-        List<Month> months = create(2023);
+        Map<String, Object> model = getCalendarModel(year);
+
+        File file = pdfGenerator.generatePDF(filename, template, model);
+
+        return file;
+    }
+
+    private Map<String, Object> getCalendarModel(int year) {
+        List<Month> months = create(year);
 
         log.info("months {}", months);
 
         for(Month month : months) {
-            String imageName = String.format("images/%s.JPG", month.getMonthName());
+            String imageName = String.format("images/%s/%s.JPG", theme, month.getMonthName());
             log.info ("Month: {} has {} weeks {} ", month.getMonthName(), month.getWeeks().size(), imageName);
             month.setImage(imageName);
         }
 
         Map<String, Object> model = new HashMap<>();
         model.put("months", months);
-        File file = pdfGenerator.generatePDF(filename, template, model);
-
-        return file;
+        return model;
     }
 
     @Override

@@ -18,19 +18,26 @@ import java.io.File;
 public class CalendarServiceImplTest {
 
     private PdfGeneratorImpl pdfGenerator;
+    private CalendarServiceImpl calendarService;
 
     @Before
     public void before() {
         ThymeLeafConfig thymeLeafConfig = new ThymeLeafConfig();
         ITemplateResolver iTemplateResolver = thymeLeafConfig.thymeleafTemplateResolver();
         pdfGenerator = new PdfGeneratorImpl(thymeLeafConfig.thymeleafTemplateEngine(iTemplateResolver));
+        calendarService = new CalendarServiceImpl(pdfGenerator);
     }
     @Test
-    public void testGenerateCalendar() {
-
-        CalendarServiceImpl calendarService = new CalendarServiceImpl(pdfGenerator);
-
+    public void testGenerateCalendar2023() {
+        calendarService.setTheme("nature");
         File file = calendarService.createCalendar(2023, "pdf/calendar-2023.pdf");
+
+        log.info("File {}", file.getAbsolutePath());
+    }
+    @Test
+    public void testGenerateCalendar2024() {
+        calendarService.setTheme("california");
+        File file = calendarService.createCalendar(2024, "pdf/calendar-2024.pdf");
 
         log.info("File {}", file.getAbsolutePath());
     }
