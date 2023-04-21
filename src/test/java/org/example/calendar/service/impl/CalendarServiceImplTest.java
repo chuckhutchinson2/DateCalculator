@@ -39,15 +39,9 @@ public class CalendarServiceImplTest {
         log.info("months {}", months);
 
         for(Month month : months) {
-            log.info ("Month: {} has {} weeks", month.getMonthName(), month.getWeeks().size());
-
-            if (month.getMonthName().equalsIgnoreCase("January")) {
-                month.setImage("https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg");
-            } else if (month.getMonthName().equalsIgnoreCase("October")) {
-                month.setImage("https://upload.wikimedia.org/wikipedia/commons/a/aa/Dawn_on_the_S_rim_of_the_Grand_Canyon_%288645178272%29.jpg");
-            } else {
-                month.setImage("https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Walking_tiger_female.jpg/2560px-Walking_tiger_female.jpg");
-            }
+            String imageName = String.format("images/%s.JPG", month.getMonthName());
+            log.info ("Month: {} has {} weeks {} ", month.getMonthName(), month.getWeeks().size(), imageName);
+            month.setImage(imageName);
         }
 
         Map<String, Object> model = new HashMap<>();
