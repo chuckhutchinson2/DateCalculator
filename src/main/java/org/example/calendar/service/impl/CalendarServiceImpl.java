@@ -1,5 +1,7 @@
 package org.example.calendar.service.impl;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.example.calendar.model.Day;
 import org.example.calendar.model.Month;
@@ -18,8 +20,13 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+@Getter
+@Setter
 public class CalendarServiceImpl implements CalendarService {
     public static final String CALENDAR_HTML_TEMPLATE = "calendar.html";
+
+    private String template = CALENDAR_HTML_TEMPLATE;
+
     private PdfGenerator pdfGenerator;
 
     public CalendarServiceImpl(PdfGenerator pdfGenerator) {
@@ -41,7 +48,7 @@ public class CalendarServiceImpl implements CalendarService {
 
         Map<String, Object> model = new HashMap<>();
         model.put("months", months);
-        File file = pdfGenerator.generatePDF(filename, CALENDAR_HTML_TEMPLATE, model);
+        File file = pdfGenerator.generatePDF(filename, template, model);
 
         return file;
     }
