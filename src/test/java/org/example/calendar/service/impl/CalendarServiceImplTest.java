@@ -28,17 +28,48 @@ public class CalendarServiceImplTest {
         calendarService = new CalendarServiceImpl(pdfGenerator);
     }
     @Test
-    public void testGenerateCalendar2023() {
+    public void testGenerateCalendarNature2023() {
         calendarService.setTheme("nature");
         File file = calendarService.createCalendar(2023, "pdf/calendar-2023.pdf");
 
         log.info("File {}", file.getAbsolutePath());
     }
     @Test
-    public void testGenerateCalendar2024() {
+    public void testGenerateCalendarCalifornia2024() {
         calendarService.setTheme("california");
         File file = calendarService.createCalendar(2024, "pdf/calendar-2024.pdf");
 
         log.info("File {}", file.getAbsolutePath());
+    }
+
+    @Test
+    public void testGenerateCalendarFrenchImpressionists2025() {
+        calendarService.setTheme("french-impressionists");
+        File file = calendarService.createCalendar(2025, "pdf/calendar-2025.pdf");
+
+        log.info("File {}", file.getAbsolutePath());
+    }
+
+    @Test
+    public void testGenerateCalendarArt2026() {
+        calendarService.setTheme("art");
+        File file = calendarService.createCalendar(2026, "pdf/calendar-2026.pdf");
+
+        log.info("File {}", file.getAbsolutePath());
+    }
+
+    @Test
+    public void testGenerateCalendars() {
+        String[] themes = { "art", "california", "french-impressionists", "nature"};
+
+        for (String theme : themes) {
+            for (int year = 2023; year < 2030; year++) {
+                calendarService.setTheme(theme);
+                String path = String.format("pdf/%d", year);
+                new File(path).mkdirs();
+                String calendarName = String.format("pdf/%d/calendar-%s-%d.pdf", year, theme, year);
+                calendarService.createCalendar(year, calendarName);
+            }
+        }
     }
 }
