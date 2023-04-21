@@ -91,7 +91,7 @@ body {font-family: Verdana, sans-serif;}
 <body>
 
 <div th:each="month: ${months}">
-    <div class="@page page-break">
+    <div class="@page page-break" th:if="${month.image != ''}">
         <div class="image"><img th:src="${month.image}" /></div>
     </div>
     <div class="@page page-break">
