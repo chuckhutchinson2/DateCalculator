@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 @ActiveProfiles("test")
 @RunWith(MockitoJUnitRunner.class)
@@ -27,7 +28,7 @@ public class ZipServiceImplTest {
 
     @Test
     public void testZip() throws IOException {
-        zipService.archive("images", new String[] {"jpg"});
+        zipService.archive("images", Arrays.asList("*.jpg"));
     }
 
 }

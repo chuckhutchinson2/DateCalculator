@@ -1,43 +1,54 @@
 package org.example.datecalculator.zip.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.commons.io.filefilter.OrFileFilter;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.example.datecalculator.zip.ZipService;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Component
 @Slf4j
 public class ZipServiceImpl implements ZipService {
+    int BUFFER = 1024*1024;
+
     private ZipOutputStream zipOutputStream;
     private File basePath;
     private int depth = 0;
-    public ZipServiceImpl(OutputStream outputStream) throws FileNotFoundException  {
+    public ZipServiceImpl(OutputStream outputStream) {
         zipOutputStream = new ZipOutputStream(outputStream);
     }
     @Override
-    public void archive(String path, String[] extensions) throws IOException {
-        archive(new File(path), extensions);
+    public void archive(String path, List wildcards) throws IOException {
+        archive(new File(path), wildcards);
     }
 
     @Override
-    public void archive(File directory, String[] extensions) throws IOException {
+    public void archive(File directory, List wildcards) throws IOException {
 
         if (depth == 0) {
             basePath = directory;
         }
         depth++;
 
-        FileFilter fileFilter = pathname -> checkName(pathname.getAbsolutePath(), extensions) || pathname.isDirectory();
+        FileFilter fileFilter = FileFilterUtils.orFileFilter(
+                DirectoryFileFilter.DIRECTORY,
+                new WildcardFileFilter(wildcards, IOCase.INSENSITIVE)
+        );
 
         File[] files = directory.listFiles(fileFilter);
         for (File file : files) {
             log.info("file {}", file);
 
             if (file.isDirectory()) {
-                archive(file, extensions);
+                archive(file, wildcards);
             } else {
                 addFile(file);
             }
@@ -50,14 +61,17 @@ public class ZipServiceImpl implements ZipService {
         }
     }
 
-    int BUFFER = 1024*1024;
-
     void addFile(File file) throws IOException {
 
         FileInputStream fis = new FileInputStream(file);
         BufferedInputStream bis = new BufferedInputStream(fis, BUFFER);
 
-        String relativePath = file.getAbsolutePath().replace(basePath.getAbsolutePath(), "");
+        String pathToIgnore = basePath.getAbsolutePath();
+        if (!pathToIgnore.endsWith("/")) {
+            pathToIgnore = pathToIgnore + "/";
+        }
+
+        String relativePath = file.getAbsolutePath().replace(pathToIgnore, "");
 
         log.info("relative path: {}", relativePath);
         ZipEntry zipEntry = new ZipEntry(relativePath);
@@ -72,19 +86,5 @@ public class ZipServiceImpl implements ZipService {
         }
 
         zipOutputStream.closeEntry();
-    }
-
-    boolean checkName(String name, String[] extensions) {
-        if (extensions == null) {
-            return true;
-        }
-        for (String extension : extensions) {
-
-            if (name.toUpperCase().endsWith(extension.toUpperCase())) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
