@@ -27,7 +27,6 @@ public class AsyncConfig implements AsyncConfigurer {
         this.taskExecutionProperties = taskExecutionProperties;
     }
 
-
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return new SimpleAsyncUncaughtExceptionHandler();
