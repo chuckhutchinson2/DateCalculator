@@ -30,9 +30,9 @@ public class ZipServiceImpl implements ZipService {
         }
         depth++;
 
-        FilenameFilter filenameFilter = ((dir, name) -> dir.isDirectory() || checkName(name, extensions));
+        FileFilter fileFilter = pathname -> checkName(pathname.getAbsolutePath(), extensions) || pathname.isDirectory();
 
-        File[] files = directory.listFiles(filenameFilter);
+        File[] files = directory.listFiles(fileFilter);
         for (File file : files) {
             log.info("file {}", file);
 
@@ -79,7 +79,8 @@ public class ZipServiceImpl implements ZipService {
             return true;
         }
         for (String extension : extensions) {
-            if (name.endsWith(extension)) {
+
+            if (name.toUpperCase().endsWith(extension.toUpperCase())) {
                 return true;
             }
         }

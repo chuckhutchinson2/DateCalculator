@@ -27,7 +27,7 @@ public class ZipServiceImplTest {
 
     @Test
     public void testZip() throws IOException {
-        zipService.archive("images", new String[] {"png"});
+        zipService.archive("images", new String[] {"jpg"});
     }
 
 }
