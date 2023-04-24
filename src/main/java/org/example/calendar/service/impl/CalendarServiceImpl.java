@@ -28,6 +28,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     private String template = CALENDAR_HTML_TEMPLATE;
     private String theme = "nature";
+    private String rootTemplateDirectory = "/Users/chuck/code/DateCalculator/images";
 
     private PdfGenerator pdfGenerator;
 
@@ -58,7 +59,7 @@ public class CalendarServiceImpl implements CalendarService {
         log.info("months {}", months);
 
         for(Month month : months) {
-            String imageName = String.format("images/%s/%s.JPG", theme, month.getMonthName());
+            String imageName = String.format("%s/%s/%s.JPG", rootTemplateDirectory, theme, month.getMonthName());
             log.info ("Month: {} has {} weeks {} ", month.getMonthName(), month.getWeeks().size(), imageName);
             month.setImage(imageName);
         }

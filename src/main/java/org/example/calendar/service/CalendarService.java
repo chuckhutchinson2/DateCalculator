@@ -14,5 +14,7 @@ public interface CalendarService {
 
     void setTemplate(String template);
 
+    void setTheme(String theme);
+
     List<Month> create(int year);
 }
