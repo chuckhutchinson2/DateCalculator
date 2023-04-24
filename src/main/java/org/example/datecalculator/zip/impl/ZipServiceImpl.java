@@ -73,8 +73,10 @@ public class ZipServiceImpl implements ZipService {
 
         String relativePath = file.getAbsolutePath().replace(pathToIgnore, "");
 
-        log.info("relative path: {}", relativePath);
-        ZipEntry zipEntry = new ZipEntry(relativePath);
+        String path = String.format("%s/%s", basePath.getName(), relativePath);
+
+        log.info("path {} relative path: {}", path, relativePath);
+        ZipEntry zipEntry = new ZipEntry(path);
 
         zipOutputStream.putNextEntry(zipEntry);
 
