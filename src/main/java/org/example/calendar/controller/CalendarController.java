@@ -26,7 +26,7 @@ public class CalendarController {
     @GetMapping(value = "/get/{year}/{theme}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<StreamingResponseBody> download(@PathVariable Integer year, @PathVariable Theme theme) {
 
-        log.info("Generating calendar for %s %d", theme.getPath(), year);
+        log.info("Generating calendar for {} {}", theme.getPath(), year);
         calendarService.setTheme(theme.getPath());
         StreamingResponseBody responseBody = outputStream -> {
             calendarService.createCalendar(year, outputStream);
