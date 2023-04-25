@@ -25,6 +25,18 @@ public class ZipServiceImpl implements ZipService {
     public ZipServiceImpl(OutputStream outputStream) {
         zipOutputStream = new ZipOutputStream(outputStream);
     }
+    public ZipServiceImpl() {
+    }
+
+    @Override
+    public void archive(String archiveName, String path, List wildcards) throws IOException {
+        depth = 0;
+        FileOutputStream fileOutputStream = new FileOutputStream(archiveName);
+        zipOutputStream = new ZipOutputStream(fileOutputStream);
+        archive(path, wildcards);
+        close();
+    }
+
     @Override
     public void archive(String path, List wildcards) throws IOException {
         archive(new File(path), wildcards);
@@ -55,10 +67,10 @@ public class ZipServiceImpl implements ZipService {
         }
 
         depth--;
+    }
 
-        if (depth == 0) {
-            zipOutputStream.close();
-        }
+    public void close() throws IOException {
+        zipOutputStream.close();
     }
 
     void addFile(File file) throws IOException {

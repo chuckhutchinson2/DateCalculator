@@ -18,9 +18,18 @@ public class ZipServiceImplTest {
 
     @Test
     public void testZipDirectory() throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream("images.zip");
+        FileOutputStream fileOutputStream = new FileOutputStream("zip/html.zip");
 
         zipService = new ZipServiceImpl(fileOutputStream);
-        zipService.archive("images", Arrays.asList("*.jpg"));
+        zipService.archive("html", Arrays.asList("*.html"));
+        zipService.close();
+    }
+
+
+    @Test
+    public void testZipDirectory1() throws IOException {
+        zipService = new ZipServiceImpl();
+        zipService.archive("zip/html2.zip", "html", Arrays.asList("*.html"));
+        zipService.archive("zip/images.zip", "images", Arrays.asList("*.jpg"));
     }
 }
