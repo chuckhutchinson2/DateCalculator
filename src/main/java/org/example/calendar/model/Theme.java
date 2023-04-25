@@ -7,7 +7,8 @@ public enum Theme {
     ART("art"),
     NATURE("nature"),
     FRENCH_IMPRESSIONISTS("french-impressionists"),
-    CALIFORNIA("california");
+    CALIFORNIA("california"),
+    ITALY("italy");
 
     private String path;
     Theme(String path) {
