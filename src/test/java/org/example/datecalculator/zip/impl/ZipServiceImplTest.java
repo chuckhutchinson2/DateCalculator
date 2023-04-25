@@ -22,6 +22,7 @@ public class ZipServiceImplTest {
 
         zipService = new ZipServiceImpl(fileOutputStream);
         zipService.archive("html", Arrays.asList("*.html"));
+        zipService.archive("images", Arrays.asList("*.jpg"));
         zipService.close();
     }
 
