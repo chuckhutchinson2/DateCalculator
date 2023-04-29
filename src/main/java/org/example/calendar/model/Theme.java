@@ -8,6 +8,7 @@ public enum Theme {
     NATURE("nature"),
     FRENCH_IMPRESSIONISTS("french-impressionists"),
     CALIFORNIA("california"),
+    LONDON("london"),
     ITALY("italy");
 
     private String path;
